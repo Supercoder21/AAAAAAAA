@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            height: 100vh;
+            overflow: hidden;
+            background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(9,9,121,1) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(20, 1fr);
+            grid-template-rows: repeat(20, 1fr);
+            width: 80%;
+            height: 80%;
+            gap: 2px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .letter {
+            font-size: 3em;
+            cursor: none;
+            transition: all 0.3s ease;
+        }
+
+        .link {
+            font-size: 4em;
+            color: #ff0000;
+            transition: transform 0.3s ease;
+        }
+
+        .cursor {
+            position: fixed;
+            pointer-events: none;
+            font-size: 5em;
+            color: #ffffff;
+            z-index: 1000;
+            transition: all 0.1s ease;
+        }
+
+        .letter:hover {
+            transform: scale(1.2);
+        }
+
+        .link:hover {
+            transform: scale(1.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container" id="letter-container">
+        <!-- The grid of letters will be generated dynamically -->
+    </div>
+
+    <div class="cursor" id="cursor">A</div>
+
+    <script>
+        // Configuration for letter display
+        const letters = ['A'];  // The grid will only contain "A"s
+        const letterContainer = document.getElementById('letter-container');
+        const cursor = document.getElementById('cursor');
+
+        // Generate random grid of letters
+        const createLetterGrid = () => {
+            letterContainer.innerHTML = ''; // Clear the existing grid
+
+            // Create a grid of letters
+            const totalCells = 20 * 20;  // Grid of 20x20 letters
+            const randomIndex = Math.floor(Math.random() * totalCells);  // Random index for the link
+
+            for (let i = 0; i < totalCells; i++) {
+                const letterElement = document.createElement('div');
+                letterElement.classList.add('letter');
+                letterElement.textContent = letters[0];
+
+                // Randomly select one letter to be a link
+                if (i === randomIndex) {
+                    letterElement.classList.add('link');
+                    letterElement.innerHTML = `<a href="https://www.example.com" target="_blank">${letterElement.textContent}</a>`;
+                }
+
+                letterContainer.appendChild(letterElement);
+            }
+        };
+
+        // Function to change the cursor based on the selected letter
+        const updateCursor = (letter) => {
+            cursor.textContent = letter;
+            cursor.style.fontSize = '5em';
+        };
+
+        // Function to update cursor position
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = `${e.pageX - cursor.offsetWidth / 2}px`;
+            cursor.style.top = `${e.pageY - cursor.offsetHeight / 2}px`;
+        });
+
+        // Initialize the page
+        createLetterGrid();
+        updateCursor(letters[0]);
+    </script>
+
+</body>
+</html>
