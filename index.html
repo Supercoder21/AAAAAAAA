@@ -20,23 +20,23 @@
 
         .container {
             display: grid;
-            grid-template-columns: repeat(20, 1fr);
-            grid-template-rows: repeat(20, 1fr);
-            width: 80%;
-            height: 80%;
-            gap: 2px;
+            grid-template-columns: repeat(10, 1fr); /* 10 columns */
+            grid-template-rows: repeat(10, 1fr);    /* 10 rows */
+            width: 80vw; /* Ensuring the grid width is consistent */
+            height: 80vh; /* Ensuring the grid height is consistent */
+            gap: 5px;
             text-align: center;
-            overflow: hidden;
+            overflow: auto; /* Allow scrolling if needed */
         }
 
         .letter {
-            font-size: 3em;
+            font-size: 5em; /* Increase the size of the A's */
             cursor: none;
             transition: all 0.3s ease;
         }
 
         .link {
-            font-size: 4em;
+            font-size: 6em; /* Make the linked "A" even bigger */
             color: #ff0000;
             transition: transform 0.3s ease;
         }
@@ -44,7 +44,7 @@
         .cursor {
             position: fixed;
             pointer-events: none;
-            font-size: 5em;
+            font-size: 6em; /* Bigger cursor */
             color: #ffffff;
             z-index: 1000;
             transition: all 0.1s ease;
@@ -56,6 +56,28 @@
 
         .link:hover {
             transform: scale(1.4);
+        }
+
+        /* Adjust font size for small screens */
+        @media (max-width: 768px) {
+            .letter {
+                font-size: 4em;
+            }
+
+            .cursor {
+                font-size: 5em;
+            }
+        }
+
+        /* Adjust font size for larger screens */
+        @media (min-width: 1200px) {
+            .letter {
+                font-size: 7em;
+            }
+
+            .cursor {
+                font-size: 8em;
+            }
         }
 
     </style>
@@ -74,12 +96,12 @@
         const letterContainer = document.getElementById('letter-container');
         const cursor = document.getElementById('cursor');
 
-        // Generate random grid of letters
+        // Function to generate grid and ensure a random "A" is linked
         const createLetterGrid = () => {
             letterContainer.innerHTML = ''; // Clear the existing grid
 
-            // Create a grid of letters
-            const totalCells = 20 * 20;  // Grid of 20x20 letters
+            // Create a grid of letters (fixed size, 100 total)
+            const totalCells = 100;  // Grid of 10x10 letters
             const randomIndex = Math.floor(Math.random() * totalCells);  // Random index for the link
 
             for (let i = 0; i < totalCells; i++) {
@@ -87,7 +109,7 @@
                 letterElement.classList.add('letter');
                 letterElement.textContent = letters[0];
 
-                // Randomly select one letter to be a link
+                // Randomly select one letter to be a link, ensure it is always displayed
                 if (i === randomIndex) {
                     letterElement.classList.add('link');
                     letterElement.innerHTML = `<a href="https://www.example.com" target="_blank">${letterElement.textContent}</a>`;
@@ -100,7 +122,7 @@
         // Function to change the cursor based on the selected letter
         const updateCursor = (letter) => {
             cursor.textContent = letter;
-            cursor.style.fontSize = '5em';
+            cursor.style.fontSize = '6em';
         };
 
         // Function to update cursor position
